@@ -47,12 +47,14 @@ async function main(credentials) {
         await page.waitFor(3000);
         await page.click('button[class="button dialog__button dialog__button--confirm dialog__button--row button--white button--medium"]');
         await page.waitFor(2000);
- 
+
+        const result = (await page.evaluate(el => el.textContent, await page.$('.topups-dialog__text')));
+        console.log(result);
     }
 
     console.log('Closing browser\n');
     await browser.close();
 }
 const credentials = JSON.parse(fs.readFileSync('credentials.json'));
-
+// main(credentials);
 setInterval(() => main(credentials), 120000);
