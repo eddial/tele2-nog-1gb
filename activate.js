@@ -1,9 +1,10 @@
 const puppeteer = require('puppeteer');
 const fs = require('fs');
+var twilio = require('twilio');
 
 async function main(credentials) {
     
-    console.log('Launching browser window');
+    console.log('\nLaunching browser');
     const browser = await puppeteer.launch({headless: true});
     const page = await browser.newPage();
 
@@ -23,8 +24,8 @@ async function main(credentials) {
     });
 
     console.log('Logging in');
-    await page.type('#Section1_Row1_Column1_Cell1_Login_Username', credentials.username);
-    await page.type('#Section1_Row1_Column1_Cell1_Login_Password', credentials.password);
+    await page.type('#Section1_Row1_Column1_Cell1_Login_Username', credentials.tele2.username);
+    await page.type('#Section1_Row1_Column1_Cell1_Login_Password', credentials.tele2.password);
 
     await page.click('#Section1_Row1_Column1_Cell1_Login_LoginButton'),
 
@@ -37,24 +38,26 @@ async function main(credentials) {
     console.log(`${megabytesLeft} MB left`);
 
 
-    if (megabytesLeft < 1) {
-        console.log('Activating extra GB');
-        await page.waitForSelector('button[class="button usage-box__button button--purple button--medium"]', {
-            visible: true,
-        });
+    if (megabytesLeft < 300) {
+        console.log('Sending SMS to mobile phone');
 
-        await page.click('button[class="button usage-box__button button--purple button--medium"]');
-        await page.waitFor(3000);
-        await page.click('button[class="button dialog__button dialog__button--confirm dialog__button--row button--white button--medium"]');
-        await page.waitFor(2000);
+        const client = new twilio(credentials.twilio.sid, credentials.twilio.token);
 
-        const result = (await page.evaluate(el => el.textContent, await page.$('.topups-dialog__text')));
-        console.log(result);
+        client.messages.create({
+            body: 'NOG 1GB',
+            to: credentials.twilio.to,
+            from: credentials.twilio.from
+        })
+        .then((message) => console.log(`SMS message sent - ${message.sid}`));
+
+        console.log('Wait for 5 minutes');
+        await page.waitFor(300000);
     }
 
-    console.log('Closing browser\n');
+    console.log('Closing browser');
     await browser.close();
 }
+
 const credentials = JSON.parse(fs.readFileSync('credentials.json'));
-// main(credentials);
+
 setInterval(() => main(credentials), 120000);

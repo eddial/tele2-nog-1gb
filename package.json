@@ -1,0 +1,23 @@
+{
+  "name": "tele2-nog-1gb",
+  "version": "1.0.0",
+  "description": "",
+  "main": "activate.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eddial/tele2-nog-1gb.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/eddial/tele2-nog-1gb/issues"
+  },
+  "homepage": "https://github.com/eddial/tele2-nog-1gb#readme",
+  "dependencies": {
+    "puppeteer": "^5.2.1",
+    "twilio": "^3.48.1"
+  }
+}
