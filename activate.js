@@ -38,7 +38,7 @@ async function main(credentials) {
     console.log(`${megabytesLeft} MB left`);
 
 
-    if (megabytesLeft < 300) {
+    if (megabytesLeft < 999) {
         console.log('Sending SMS to mobile phone');
 
         const client = new twilio(credentials.twilio.sid, credentials.twilio.token);
