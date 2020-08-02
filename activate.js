@@ -37,7 +37,7 @@ async function main(credentials) {
     console.log(`${megabytesLeft} MB left`);
 
 
-    if (megabytesLeft < 150) {
+    if (megabytesLeft < 1) {
         console.log('Activating extra GB');
         await page.waitForSelector('button[class="button usage-box__button button--purple button--medium"]', {
             visible: true,
