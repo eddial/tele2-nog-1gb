@@ -50,10 +50,9 @@ async function main(credentials) {
  
     }
 
-    console.log('Closing browser');
+    console.log('Closing browser\n');
     await browser.close();
 }
-
 const credentials = JSON.parse(fs.readFileSync('credentials.json'));
 
 setInterval(() => main(credentials), 120000);
